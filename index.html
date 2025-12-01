@@ -1,33 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barbie Stopwatch</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header>
-    <h1>Barbie Stopwatch</h1>
-</header>
-
-<section class="stopwatch-container">
-    <div id="time">00:00:00:00</div>
-    <div class="buttons">
-        <button id="startPauseBtn">Start</button>
-        <button id="pauseBtn">Pause</button>
-        <button id="resetBtn">Reset</button>
-        <button id="lapBtn">Lap</button>
+  <div class="container">
+    <h1>Stopwatch</h1>
+    <div class="stopwatch">
+      <span id="time">00:00:00.000</span>
     </div>
+    <div class="controls">
+      <button id="startStopBtn">Start</button>
+      <button id="pauseBtn">Pause</button>
+      <button id="resetBtn">Reset</button>
+      <button id="lapBtn">Lap</button>
+    </div>
+    <div class="laps">
+      <h2>Lap Times</h2>
+      <ul id="lapsList"></ul>
+    </div>
+  </div>
 
-    <ul class="laps" id="lapsList"></ul>
-</section>
-
-<!-- Barbie div for animation -->
-<div id="barbie" class="barbie"></div>
-
-<!-- Include JS -->
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
