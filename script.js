@@ -1,65 +1,82 @@
-let startTime;
-let elapsedTime = 0;
-let timerInterval;
-let laps = [];
+let hours = 0, minutes = 0, seconds = 0, milliseconds = 0;
+let timer;
+let running = false;
 
 const timeDisplay = document.getElementById('time');
+const startPauseBtn = document.getElementById('startPauseBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const resetBtn = document.getElementById('resetBtn');
+const lapBtn = document.getElementById('lapBtn');
+const clearLapsBtn = document.getElementById('clearLapsBtn');
 const lapsList = document.getElementById('lapsList');
 
-function timeToString(time) {
-  let diffInHrs = time / 3600000;
-  let hh = Math.floor(diffInHrs);
+function updateTime() {
+    milliseconds += 10;
+    if (milliseconds === 1000) {
+        milliseconds = 0;
+        seconds++;
+    }
+    if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+    }
+    if (minutes === 60) {
+        minutes = 0;
+        hours++;
+    }
 
-  let diffInMin = (diffInHrs - hh) * 60;
-  let mm = Math.floor(diffInMin);
+    let h = hours < 10 ? "0" + hours : hours;
+    let m = minutes < 10 ? "0" + minutes : minutes;
+    let s = seconds < 10 ? "0" + seconds : seconds;
+    let ms = Math.floor(milliseconds / 10);
+    ms = ms < 10 ? "0" + ms : ms;
 
-  let diffInSec = (diffInMin - mm) * 60;
-  let ss = Math.floor(diffInSec);
-
-  let diffInMs = (diffInSec - ss) * 1000;
-  let ms = Math.floor(diffInMs);
-
-  let formattedHH = hh.toString().padStart(2, "0");
-  let formattedMM = mm.toString().padStart(2, "0");
-  let formattedSS = ss.toString().padStart(2, "0");
-  let formattedMS = ms.toString().padStart(3, "0");
-
-  return `${formattedHH}:${formattedMM}:${formattedSS}.${formattedMS}`;
+    timeDisplay.textContent = `${h}:${m}:${s}:${ms}`;
 }
 
-function start() {
-  startTime = Date.now() - elapsedTime;
-  timerInterval = setInterval(function printTime() {
-    elapsedTime = Date.now() - startTime;
-    timeDisplay.innerHTML = timeToString(elapsedTime);
-  }, 10);
-  document.getElementById('startStopBtn').disabled = true;
-}
+// Start/Pause
+startPauseBtn.addEventListener('click', () => {
+    if (!running) {
+        timer = setInterval(updateTime, 10);
+        startPauseBtn.textContent = "Pause";
+        running = true;
+    } else {
+        clearInterval(timer);
+        startPauseBtn.textContent = "Start";
+        running = false;
+    }
+});
 
-function pause() {
-  clearInterval(timerInterval);
-  document.getElementById('startStopBtn').disabled = false;
-}
+// Pause Button
+pauseBtn.addEventListener('click', () => {
+    if (running) {
+        clearInterval(timer);
+        startPauseBtn.textContent = "Start";
+        running = false;
+    }
+});
 
-function reset() {
-  clearInterval(timerInterval);
-  elapsedTime = 0;
-  timeDisplay.innerHTML = "00:00:00.000";
-  laps = [];
-  lapsList.innerHTML = "";
-  document.getElementById('startStopBtn').disabled = false;
-}
+// Reset
+resetBtn.addEventListener('click', () => {
+    clearInterval(timer);
+    hours = minutes = seconds = milliseconds = 0;
+    timeDisplay.textContent = "00:00:00:00";
+    startPauseBtn.textContent = "Start";
+    running = false;
+    lapsList.innerHTML = "";
+});
 
-function lap() {
-  if (elapsedTime === 0) return;
-  laps.push(elapsedTime);
-  const li = document.createElement('li');
-  li.textContent = `Lap ${laps.length}: ${timeToString(elapsedTime)}`;
-  lapsList.appendChild(li);
-}
+// Lap
+lapBtn.addEventListener('click', () => {
+    if (running) {
+        const lapTime = timeDisplay.textContent;
+        const li = document.createElement('li');
+        li.textContent = `Lap ${lapsList.children.length + 1}: ${lapTime}`;
+        lapsList.appendChild(li);
+    }
+});
 
-// Event Listeners
-document.getElementById('startStopBtn').addEventListener('click', start);
-document.getElementById('pauseBtn').addEventListener('click', pause);
-document.getElementById('resetBtn').addEventListener('click', reset);
-document.getElementById('lapBtn').addEventListener('click', lap);
+// Clear Laps
+clearLapsBtn.addEventListener('click', () => {
+    lapsList.innerHTML = "";
+});
