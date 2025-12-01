@@ -109,3 +109,34 @@ footer {
     text-align: center;
     margin-top: 50px;
 }
+/* Barbie Animations */
+.barbie {
+    position: absolute;       /* So they can move freely */
+    width: 80px;              /* Adjust size as needed */
+    height: 120px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 10;
+}
+
+/* Different Barbie images */
+.barbie1 { background-image: url('assets/barbie_image.png');}
+.barbie2 { background-image: url('assets/barbie_image.png');}
+.barbie3 { background-image: url('assets/barbie_image.png');}
+
+/* Jump animation */
+@keyframes jump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-50px); }
+}
+
+/* Walk animation (side to side) */
+@keyframes walk {
+    0% { left: 0; }
+    50% { left: 80%; }
+    100% { left: 0; }
+}
+
+/* Apply animations */
+.barbie.jump { animation: jump 1s infinite; }
+.barbie.walk { animation: walk 6s linear infinite; }
