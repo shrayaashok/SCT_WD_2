@@ -32,13 +32,8 @@ function barbieClickAnimation(button) {
     const rect = button.getBoundingClientRect();
     barbie.style.display = 'block';
 
-    // Calculate Barbie's position relative to viewport
-    const x = rect.left + rect.width/2 - 40; // 40 = half Barbie width
-    const y = rect.top + window.scrollY + rect.height/2 - 80; // 80 = Barbie height
-
-    // Optional: randomize Barbie image for fun
-    const barbieImages = ['barbie_image.png'];
-    barbie.style.backgroundImage = `url('assets/barbie_image/${barbieImages[Math.floor(Math.random()*barbieImages.length)]}')`;
+    const x = rect.left + rect.width/2 - 40; // half Barbie width
+    const y = rect.top + window.scrollY + rect.height/2 - 80; // Barbie height
 
     // Move Barbie
     barbie.style.transform = `translate(${x}px, ${y}px) scale(1.1)`;
@@ -49,6 +44,7 @@ function barbieClickAnimation(button) {
         barbie.style.transform='translate(0,0) scale(1)';
     }, 1000);
 }
+
 
 // Start/Pause button
 startPauseBtn.addEventListener('click', ()=>{
